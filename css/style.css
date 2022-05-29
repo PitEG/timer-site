@@ -1,3 +1,7 @@
-h1 {
-  color: black;
+timer-ui {
+  background: red;
+}
+
+timer-ui p {
+  margin: 0px;
 }

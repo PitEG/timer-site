@@ -1,6 +1,10 @@
 import { Timer } from './timer.js'
+import { TimerUI } from './timerui.js'
 
-console.log('hi');
+let debug = document.getElementById('debug');
 
-let timer = new Timer(10, function() { console.log('hi there');});
-timer.start();
+let timerui = new TimerUI;
+debug.append(timerui);
+
+timerui.setTimer(3600);
+timerui.start();

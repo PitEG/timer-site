@@ -3,19 +3,22 @@ export class Timer {
   #_timeLeft
   #_interval
 
-  constructor(duration, callback) {
+  // duration is in seconds, callback is called every second, 
+  // and finish callback is called when the timer reaches 0 during countdown.
+  constructor(duration, callback, finishCallback) {
     this.#_startAmount = duration;
     this.#_timeLeft = duration;
-    // runs this callback every second
     this.callback = callback;
+    this.finishCallback = finishCallback;
   }
 
+  // returns time left in seconds
   get timeLeft() {
-    return this.#_startAmount;
+    return this.#_timeLeft;
   }
 
   get startAmount() {
-    return this.#_timeLeft;
+    return this.#_startAmount;
   }
 
   #stopCountDown() {
@@ -34,17 +37,19 @@ export class Timer {
 
   increment() {
     this.#_timeLeft--;
-    console.log('time left:', this.#_timeLeft);
+    // console.log('time left:', this.#_timeLeft);
     this.callback();
 
     // if the timer is done, stop the interval
     if (this.#_timeLeft <= 0) {
-      console.log("stopping countdown");
+      // console.log("stopping countdown");
       this.#stopCountDown();
+      this.finishCallback();
     }
   }
 
   start() {
+    // console.log('starting');
     // return if already started
     if (this.#_interval != null) {
       return;
@@ -55,13 +60,15 @@ export class Timer {
   }
 
   pause() {
+    // console.log('pausing');
     // stop counting
     this.#stopCountDown();
   }
 
   resume() {
+    // console.log('resuming');
     // return if not started yet
-    if (this.#_interval == null) {
+    if (this.#_interval != null) {
       return;
     }
 
@@ -69,6 +76,7 @@ export class Timer {
   }
 
   reset() {
+    // console.log('reseting');
     // stop counting
     this.#stopCountDown();
 
