@@ -1,5 +1,7 @@
 import { TimerUI } from './timerui.js'
+import { enableShortcuts } from './shortcuts.js'
 
+enableShortcuts();
 let debug = document.getElementById('debug');
 
 let timerui = new TimerUI;
