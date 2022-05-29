@@ -1,5 +1,7 @@
-timer-ui {
-  background: red;
+timer-ui div {
+  background-color: orange;
+  padding: 5px;
+  margin: 20px;
 }
 
 timer-ui p {

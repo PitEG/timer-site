@@ -6,6 +6,8 @@ export class TimerUI extends HTMLElement {
     this.timer = null;
     this.something = 102;
 
+    this.root = document.createElement('div');
+
     this.seconds = document.createElement('p');
     this.seconds.innerHTML = 0;
 
@@ -15,9 +17,11 @@ export class TimerUI extends HTMLElement {
     this.hours = document.createElement('p');
     this.hours.innerHTML = 0;
 
-    this.append(this.hours);
-    this.append(this.minutes);
-    this.append(this.seconds);
+    this.root.append(this.hours);
+    this.root.append(this.minutes);
+    this.root.append(this.seconds);
+    
+    this.append(this.root);
   }
 
   setTimer(duration) {
@@ -28,12 +32,14 @@ export class TimerUI extends HTMLElement {
   }
 
   updateTimeDisplay() {
+    if (this.timer == null) { throw 'misisng timer'; }
     this.seconds.innerHTML = this.timer.timeLeft % 60;
     this.minutes.innerHTML = parseInt(this.timer.timeLeft / 60) % 60;
     this.hours.innerHTML = parseInt(this.timer.timeLeft / (60 * 60));
   }
 
   start() {
+    if (this.timer == null) { throw 'misisng timer'; }
     this.timer.start();
   }
 }
