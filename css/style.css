@@ -1,13 +1,39 @@
 body {
+  max-width: 500px;
+  margin: auto;
+  background: #121212;
+}
+
+header {
+  display: flex;
+  flex-direction: column;
+  font-size: 40dpi;
+  color: #676767;
+}
+
+header hr {
   margin: 0px;
+}
+
+main {
+  margin-left:  3%;
+  margin-right: 3%;
+}
+
+#timer-list {
+  padding-top: 40px;
+  width: 100%;
 }
 
 timer-ui div {
-  background-color: orange;
+  height: 120px;
+  border-radius: 8px;
+  background-color: #2D6374;
   padding: 5px;
   margin: 5px;
+  cursor: pointer;
 }
 
 timer-ui p {
-  margin: 0px;
+  margin: auto;
 }

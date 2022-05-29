@@ -2,10 +2,12 @@ import { TimerUI } from './timerui.js'
 import { enableShortcuts } from './shortcuts.js'
 
 enableShortcuts();
-let debug = document.getElementById('debug');
+let timerList = document.getElementById('timer-list');
 
 let timerui = new TimerUI;
-debug.append(timerui);
+timerList.append(timerui);
 
 timerui.setTimer(3604);
 timerui.start();
+
+timerList.addEventListener('click', ()=>{console.log('something');});
