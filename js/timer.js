@@ -52,27 +52,33 @@ export class Timer {
     // console.log('starting');
     // return if already started
     if (this.#_interval != null) {
-      return;
+      return false;
     }
 
     // run down the clock every second
     this.#startCountDown();
+    return true;
   }
 
   pause() {
     // console.log('pausing');
-    // stop counting
+    // return if already paused
+    if (this.#_interval == null) {
+      return false;
+    }
     this.#stopCountDown();
+    return true;
   }
 
   resume() {
     // console.log('resuming');
     // return if not started yet
     if (this.#_interval != null) {
-      return;
+      return false;
     }
 
     this.#startCountDown();
+    return true;
   }
 
   reset() {

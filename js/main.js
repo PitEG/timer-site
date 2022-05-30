@@ -4,10 +4,13 @@ import { enableShortcuts } from './shortcuts.js'
 enableShortcuts();
 let timerList = document.getElementById('timer-list');
 
-let timerui = new TimerUI;
-timerList.append(timerui);
+let timerui1 = new TimerUI;
+let timerui2 = new TimerUI;
+timerList.append(timerui1);
+timerList.append(timerui2);
 
-timerui.setTimer(3604);
-timerui.start();
+timerui1.setTimer(3604);
+timerui1.click();
 
-timerList.addEventListener('click', ()=>{console.log('something');});
+timerui2.setTimer(10);
+timerui2.click();

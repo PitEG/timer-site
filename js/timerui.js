@@ -8,6 +8,14 @@ export class TimerUI extends HTMLElement {
 
     this.root = document.createElement('div');
 
+    // name
+    this.name = document.createElement('h2');
+    this.name.innerHTML = 'new timer';
+
+    this.nameDiv = document.createElement('div');
+    this.nameDiv.append(this.name);
+
+    // clock
     this.seconds = document.createElement('p');
     this.seconds.innerHTML = 0;
 
@@ -17,11 +25,17 @@ export class TimerUI extends HTMLElement {
     this.hours = document.createElement('p');
     this.hours.innerHTML = 0;
 
-    this.root.append(this.hours);
-    this.root.append(this.minutes);
-    this.root.append(this.seconds);
+    this.clock = document.createElement('div');
+    this.clock.append(this.hours);
+    this.clock.append(this.minutes);
+    this.clock.append(this.seconds);
     
+    this.root.append(this.nameDiv);
+    this.root.append(this.clock);
+
     this.append(this.root);
+    
+    this.addEventListener('click',()=>{this.click();});
   }
 
   setTimer(duration) {
@@ -33,14 +47,27 @@ export class TimerUI extends HTMLElement {
 
   updateTimeDisplay() {
     if (this.timer == null) { throw 'misisng timer'; }
-    this.seconds.innerHTML = this.timer.timeLeft % 60;
-    this.minutes.innerHTML = parseInt(this.timer.timeLeft / 60) % 60;
-    this.hours.innerHTML = parseInt(this.timer.timeLeft / (60 * 60));
+    let seconds = this.timer.timeLeft % 60;
+    let minutes = parseInt(this.timer.timeLeft / 60) % 60;
+    let hours = parseInt(this.timer.timeLeft / (60 * 60)) % 60;
+
+    let parsedSeconds = seconds >= 10 ? `${seconds}` : `0${seconds}`;
+    let parsedMinutes = minutes >= 10 ? `${minutes}` : `0${minutes}`;
+    let parsedHours   = hours   >= 10 ? `${hours}` : `0${hours}`;
+
+    this.seconds.innerHTML  = parsedSeconds;
+    this.minutes.innerHTML  = parsedMinutes;
+    this.hours.innerHTML    = parsedHours;
   }
 
-  start() {
+  click() {
     if (this.timer == null) { throw 'misisng timer'; }
-    this.timer.start();
+
+    // first try resuming/starting
+    if (!this.timer.start()) {
+      // if it didn't start, it must already be running already so pause it.
+      this.timer.pause();
+    }
   }
 }
 
