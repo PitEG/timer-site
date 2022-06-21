@@ -105,6 +105,17 @@ export class TimerUI extends HTMLElement {
     // for backspacing
     if (event.key === 'Backspace') {
       console.log('pressed backspace');
+      let hrs = parseInt(this.inputH.innerText);
+      let mins = parseInt(this.inputM.innerText);
+      let secs = parseInt(this.inputS.innerText);
+
+      let sText = parseInt(secs / 10) + (mins % 10) * 10;
+      let mText = parseInt(mins / 10) + (hrs % 10) * 10;
+      let hText = parseInt(hrs / 10);
+
+      this.inputH.innerText = hText;
+      this.inputM.innerText = mText;
+      this.inputS.innerText = sText;
     }
     // commit the time
     if (event.key == 'Enter' || event.key == 'Escape') {
