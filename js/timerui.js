@@ -1,5 +1,4 @@
 import {Timer} from './timer.js'
-import {setInputFilter} from './util.js'
 
 export class TimerUI extends HTMLElement {
   constructor() {
@@ -25,17 +24,17 @@ export class TimerUI extends HTMLElement {
       this.handleMaxTimeSet(e);
     });
     this.input.addEventListener('click', () => {
-      this.inputS.innerText = 0;
-      this.inputM.innerText = 0;
-      this.inputH.innerText = 0;
+      this.inputS.innerText = "00";
+      this.inputM.innerText = "00";
+      this.inputH.innerText = "00";
     });
 
     this.inputS = document.createElement('p');
-    this.inputS.innerText = 0;
+    this.inputS.innerText = "00";
     this.inputM = document.createElement('p');
-    this.inputM.innerText = 0;
+    this.inputM.innerText = "00";
     this.inputH = document.createElement('p');
-    this.inputH.innerText = 0;
+    this.inputH.innerText = "00";
     this.input.append(this.inputH);
     this.input.append(this.inputM);
     this.input.append(this.inputS);
@@ -44,11 +43,11 @@ export class TimerUI extends HTMLElement {
 
     // clock
     this.hours = document.createElement('p');
-    this.hours.innerHTML = 0;
+    this.hours.innerHTML = "00";
     this.minutes = document.createElement('p');
-    this.minutes .innerHTML = 0;
+    this.minutes .innerHTML = "00";
     this.seconds = document.createElement('p');
-    this.seconds.innerHTML = 0;
+    this.seconds.innerHTML = "00";
 
     this.clock = document.createElement('div');
     this.clock.append(this.hours);
@@ -75,9 +74,9 @@ export class TimerUI extends HTMLElement {
     let minutes = parseInt(this.timer.timeLeft / 60) % 60;
     let hours = parseInt(this.timer.timeLeft / (60 * 60)) % 60;
 
-    let parsedSeconds = seconds >= 10 ? `${seconds}` : `0${seconds}`;
-    let parsedMinutes = minutes >= 10 ? `${minutes}` : `0${minutes}`;
-    let parsedHours   = hours   >= 10 ? `${hours}` : `0${hours}`;
+    let parsedSeconds = TimerUI.parseFormat(seconds);
+    let parsedMinutes = TimerUI.parseFormat(minutes);
+    let parsedHours   = TimerUI.parseFormat(hours);
 
     this.seconds.innerHTML  = parsedSeconds;
     this.minutes.innerHTML  = parsedMinutes;
@@ -88,20 +87,20 @@ export class TimerUI extends HTMLElement {
     // for inputing num keys 0 to 9
     if (48 <= event.keyCode && event.keyCode <= 57) {
       let digit = event.keyCode - 48;
-      /*
-      let secs = (this.maxTime % 60);
-      let mins = parseInt(this.maxTime / 60) % 60;
-      let hrs = (parseInt(this.maxTime / 3600)) * 10 + parseInt(mins / 10);
-      mins = ((parseInt(this.maxTime / 60) % 60) * 10 + parseInt(secs / 10)) % 100; 
-      secs = ((this.maxTime % 60) * 10 + digit) % 100; 
-      */
       let hrs = this.inputH.innerText;
       let mins = this.inputM.innerText;
       let secs = this.inputS.innerText;
 
-      this.inputH.innerText = parseInt(hrs) * 10 + parseInt(parseInt(mins) / 10);
-      this.inputM.innerText = (parseInt(mins) * 10 + parseInt(parseInt(secs) / 10)) % 100;
-      this.inputS.innerText = (parseInt(secs) * 10 + digit) % 100;
+      let hText = parseInt(hrs) * 10 + parseInt(parseInt(mins) / 10);
+      let mText = (parseInt(mins) * 10 + parseInt(parseInt(secs) / 10)) % 100;
+      let sText = (parseInt(secs) * 10 + digit) % 100;
+      // hText = hText >= 10 ? `${hText}` : `0${hText}`;
+      hText = TimerUI.parseFormat(hText);
+      mText = TimerUI.parseFormat(mText);
+      sText = TimerUI.parseFormat(sText);
+      this.inputH.innerText = hText;
+      this.inputM.innerText = mText
+      this.inputS.innerText = sText;
     }
     // for backspacing
     if (event.key === 'Backspace') {
@@ -112,9 +111,9 @@ export class TimerUI extends HTMLElement {
       console.log('pressed enter');
       this.input.blur();
       this.maxTime = parseInt(this.inputS.innerText) + parseInt(this.inputM.innerText) * 60 + parseInt(this.inputH.innerText) * 3600; 
-      this.inputH.innerText = parseInt(this.maxTime / 3600);
-      this.inputM.innerText = parseInt(this.maxTime / 60) % 60;
-      this.inputS.innerText = this.maxTime % 60;
+      this.inputH.innerText = TimerUI.parseFormat(parseInt(this.maxTime / 3600));
+      this.inputM.innerText = TimerUI.parseFormat(parseInt(this.maxTime / 60) % 60);
+      this.inputS.innerText = TimerUI.parseFormat(this.maxTime % 60);
       console.log(this.maxTime);
     }
   }
@@ -135,6 +134,10 @@ export class TimerUI extends HTMLElement {
     let mins = parseInt(time / 100) % 100;
     let hrs = parseInt(time / 10000) % 100;
     return secs + mins * 60 + hrs * 3600;
+  }
+
+  static parseFormat(time) {
+    return parseInt(time) >= 10 ? `${time}` : `0${time}`
   }
 }
 
