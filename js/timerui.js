@@ -3,9 +3,12 @@ import {Timer} from './timer.js'
 export class TimerUI extends HTMLElement {
   constructor() {
     super();
-    this.timer = null;
-    this.maxTime = 3599;
+    // by default, it's just a 300 second timer
+    this.timer = new Timer(300, 
+      ()=>{this.updateTimeDisplay();}, 
+      ()=>{console.log('placeholder ring');});
 
+    this.maxTime = 3599;
     this.root = document.createElement('div');
 
     // name
@@ -49,10 +52,16 @@ export class TimerUI extends HTMLElement {
     this.seconds = document.createElement('p');
     this.seconds.innerHTML = "00";
 
+    // buttons
+    this.spButton = document.createElement('button');
+    this.spButton.innerText = 'play';
+    this.spButton.onclick = this.startPause();
+
     this.clock = document.createElement('div');
     this.clock.append(this.hours);
     this.clock.append(this.minutes);
     this.clock.append(this.seconds);
+    this.clock.append(this.spButton);
     
     this.root.append(this.clock);
 
@@ -120,12 +129,19 @@ export class TimerUI extends HTMLElement {
     // commit the time
     if (event.key == 'Enter' || event.key == 'Escape') {
       console.log('pressed enter');
+      this.timer.pause();
       this.input.blur();
+
       this.maxTime = parseInt(this.inputS.innerText) + parseInt(this.inputM.innerText) * 60 + parseInt(this.inputH.innerText) * 3600; 
       this.inputH.innerText = TimerUI.parseFormat(parseInt(this.maxTime / 3600));
       this.inputM.innerText = TimerUI.parseFormat(parseInt(this.maxTime / 60) % 60);
       this.inputS.innerText = TimerUI.parseFormat(this.maxTime % 60);
+
       console.log(this.maxTime);
+      this.timer = new Timer(this.maxTime, 
+        ()=>{this.updateTimeDisplay();}, 
+        ()=>{console.log('placeholder ring');});
+      this.updateTimeDisplay();
     }
   }
 
@@ -135,6 +151,15 @@ export class TimerUI extends HTMLElement {
     // first try resuming/starting
     if (!this.timer.start()) {
       // if it didn't start, it must already be running already so pause it.
+      this.timer.pause();
+    }
+  }
+  
+  startPause() {
+    if (this.timer.start()) {
+      this.spButton.innerHTML = "&#9658;"; 
+    } else {
+      this.spButton.innerHTML = "&#9646;";
       this.timer.pause();
     }
   }
