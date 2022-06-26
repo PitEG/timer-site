@@ -26,8 +26,10 @@ class Timer extends React.Component {
   }
 
   tick() {
-    if (this.state.timeLeft === 0 && this.intervalId !== undefined) {
+    // if current timeleft is 1 before ticking, we assume it's going to 0 and end timer
+    if (this.state.timeLeft == 1) {
       clearInterval(this.intervalId);
+      this.setState(()=>({ticking: false}));
     }
     this.setState((prevState)=>({timeLeft: prevState.timeLeft - 1}));
   }
