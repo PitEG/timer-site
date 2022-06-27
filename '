@@ -66,7 +66,7 @@ class Timer extends React.Component {
 
   focusTimeSet() {
     this.numInput.current.focus();
-    this.setState(()=>({settingTimer: true}))
+    this.setState((prevState)=>({settingTimer: true, setAmount: prevState.startAmount}))
 
     this.numInput.current.value = this.state.startAmount;
   }
@@ -87,11 +87,8 @@ class Timer extends React.Component {
       newValue = newValue.substr(-maxLength);
     }
 
-    // parse int as clock time into secs
-
     e.target.value = newValue;
     this.setState({setAmount: parseInt(newValue)});
-    console.log(Timer.clockToSec(newValue.toString()));
   }
 
   enterTime(e) {
@@ -130,23 +127,11 @@ class Timer extends React.Component {
     );
   }
 
-  // returns the +h:mm:ss representation for a given number of seconds
-  static secToClock(num) {
-    const hrs = parseInt(num/3600) 
-    const mins = parseInt(num/60) % 60
-    const secs = num % 60
-    return {hrs:hrs,mins:mins,secs:secs};
+  static intToClock(num) {
+    return {hrs:0,mins:0,secs:0};
   }
 
-  // any string where it's formatted like `+hmmss`, returns num of seconds
-  static clockToSec(clock) {
-    let secs = parseInt(clock.slice(clock.length-2,clock.length));
-    let mins = parseInt(clock.slice(clock.length-4,clock.length-2));
-    let hrs = parseInt(clock.slice(clock.length-6,clock.length-4));
-    secs = isNaN(secs) ? 0 : secs;
-    mins = isNaN(mins) ? 0 : mins;
-    hrs  = isNaN(hrs) ? 0 : hrs;
-
+  static clockToInt(hrs,mins,secs) {
     return hrs * 3600 + mins * 60 + secs;
   }
 }
