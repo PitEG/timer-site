@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 function TimeDisplay(props) {
   // split into hrs, mins and seconds
@@ -98,7 +98,7 @@ class Timer extends React.Component {
 
     e.target.value = newValue;
     this.setState({setAmount: Timer.clockToSec(newValue)});
-    console.log(Timer.clockToSec(newValue.toString()));
+    // console.log(Timer.clockToSec(newValue.toString()));
   }
 
   enterTime(e) {
@@ -113,7 +113,9 @@ class Timer extends React.Component {
     const ticking = this.state.ticking;
     return (
       <div>
-        <h2> TIMER NAME </h2>
+        <h2>
+          <input type="text" defaultValue="TIMER NAME"/>
+          </h2>
         <input 
           type="tel" 
           ref={this.numInput} 
@@ -135,6 +137,9 @@ class Timer extends React.Component {
           </button>
         <button onClick={this.handleReset}>
           reset
+          </button>
+        <button onClick={this.props.onDelete}>
+          {"delete"}
           </button>
         </div>
     );
@@ -164,18 +169,37 @@ class Timer extends React.Component {
     mins = isNaN(mins) ? 0 : mins;
     hrs  = isNaN(hrs) ? 0 : hrs;
 
-    console.log(hrs,mins,secs);
-
     return hrs * 3600 + mins * 60 + secs;
   }
 }
 
 function TimerCollection() {
+  const [timerList, setTimerList] = useState([]);
+  const [timerId, setTimerId] = useState(0);
+
+  const defaultTime = 300;
+  const addTimer = () => {
+    setTimerList(()=>{
+      timerList.push({sec: defaultTime, id:timerId}); 
+      return timerList;
+    });
+    setTimerId(timerId+1);
+  }
+
+  const deleteTimer = (id) => () => {
+    console.log('deleted: ', id);
+    console.log('timer list: ', timerList);
+    setTimerList((timerList)=>timerList.filter(timer=> timer.id !== id));
+  }
+
+  const timers = timerList.map((timer)=>(
+    <Timer key={timer.id} startAmount={timer.sec} onDelete={deleteTimer(timer.id)}/>)
+  )
+
   return (
     <div> 
-      <Timer startAmount={60}/>
-      <Timer />
-      <Timer />
+      <button onClick={addTimer}> add timer. current amount: {timerList.length} </button>
+      {timers}
     </div>
   );
 }
