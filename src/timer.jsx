@@ -10,7 +10,6 @@ function TimeDisplay(props) {
   mins = isNaN(mins) ? 0 : mins;
   secs = isNaN(secs) ? 0 : secs;
   return (
-      // <input type="tel" pattern="[0-9]"></input> // for mobile keyboard
     <div>
       <p> {hrs >= 10 ? hrs : "0" + hrs} </p>
       <p> {mins >= 10 ? mins : "0" + mins} </p>
@@ -35,6 +34,7 @@ class Timer extends React.Component {
 
     this.handleStart = this.handleStart.bind(this);
     this.handleStop = this.handleStop.bind(this);
+    this.handleReset = this.handleReset.bind(this);
 
     this.handleInput = this.handleInput.bind(this);
     this.focusTimeSet = this.focusTimeSet.bind(this);
@@ -64,11 +64,17 @@ class Timer extends React.Component {
     this.setState({ticking:false});
   }
 
+  handleReset() {
+    this.handleStop();
+    this.setState((prevState)=>({timeLeft:prevState.setAmount}));
+  }
+
   focusTimeSet() {
     this.numInput.current.focus();
     this.setState(()=>({settingTimer: true}))
 
-    this.numInput.current.value = this.state.startAmount;
+    this.numInput.current.value = Timer.secToClock(this.state.startAmount);
+    // this.numInput.current.value = this.state.startAmount;
   }
 
   blurTimeSet() {
@@ -87,10 +93,11 @@ class Timer extends React.Component {
       newValue = newValue.substr(-maxLength);
     }
 
-    // parse int as clock time into secs
+    // pad string with 0's so it fits the format `dddddd`
+    newValue = newValue.padStart(6,'0');
 
     e.target.value = newValue;
-    this.setState({setAmount: parseInt(newValue)});
+    this.setState({setAmount: Timer.clockToSec(newValue)});
     console.log(Timer.clockToSec(newValue.toString()));
   }
 
@@ -115,27 +122,37 @@ class Timer extends React.Component {
           onChange={(e)=>{this.handleInput(e)}}
           onBlur={(e)=>{this.blurTimeSet(e)}}
           onKeyDown={(e)=>{this.enterTime(e)}}
-        />
+          />
         <div tabIndex={1} onFocus={()=>{this.focusTimeSet()}}>
           <TimeDisplay 
             seconds={this.state.settingTimer ? this.state.setAmount : this.state.startAmount}
             // seconds={this.startAmount}
           />
-        </div>
+          </div>
         <TimeDisplay seconds={this.state.timeLeft}/>
         <button onClick={ticking ? this.handleStop: this.handleStart}> 
           {ticking ? "stop" : "start" }
-        </button>
-      </div>
+          </button>
+        <button onClick={this.handleReset}>
+          reset
+          </button>
+        </div>
     );
   }
 
   // returns the +h:mm:ss representation for a given number of seconds
   static secToClock(num) {
-    const hrs = parseInt(num/3600) 
-    const mins = parseInt(num/60) % 60
-    const secs = num % 60
-    return {hrs:hrs,mins:mins,secs:secs};
+    if (isNaN(num)) { 
+      return "000000"; 
+    }
+    let hrs = parseInt(num/3600) 
+    let mins = parseInt(num/60) % 60
+    let secs = num % 60
+    secs = secs >= 10 ? secs.toString() : `0${secs}`;
+    mins = mins >= 10 ? mins.toString() : `0${mins}`;
+    hrs = hrs >= 10 ? hrs.toString() : `0${hrs}`;
+    // return {hrs:hrs,mins:mins,secs:secs};
+    return hrs + mins + secs;
   }
 
   // any string where it's formatted like `+hmmss`, returns num of seconds
@@ -147,6 +164,8 @@ class Timer extends React.Component {
     mins = isNaN(mins) ? 0 : mins;
     hrs  = isNaN(hrs) ? 0 : hrs;
 
+    console.log(hrs,mins,secs);
+
     return hrs * 3600 + mins * 60 + secs;
   }
 }
@@ -154,7 +173,7 @@ class Timer extends React.Component {
 function TimerCollection() {
   return (
     <div> 
-      <Timer startAmount={4}/>
+      <Timer startAmount={60}/>
       <Timer />
       <Timer />
     </div>
