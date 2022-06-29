@@ -13,9 +13,9 @@ function TimeDisplay(props) {
   secs = isNaN(secs) ? 0 : secs;
   return (
     <div>
-      <p> {hrs  >= 10 ? hrs  : "0" + hrs}h </p>
-      <p> {mins >= 10 ? mins : "0" + mins}m </p>
-      <p> {secs >= 10 ? secs : "0" + secs}s </p>
+      <span> {hrs  >= 10 ? hrs  : "0" + hrs}<span>h</span> </span>
+      <span> {mins >= 10 ? mins : "0" + mins}m             </span>
+      <span> {secs >= 10 ? secs : "0" + secs}s             </span>
     </div>
   );
 }
@@ -131,7 +131,10 @@ class Timer extends React.Component {
     return (
       <div onClick={this.stopAlarmSound}>
         <h2>
-          <input type="text" defaultValue="TIMER NAME"/>
+          <input type="text" 
+            defaultValue="TIMER NAME" 
+            className="timer-name"
+            />
           </h2>
         <input 
           type="tel" 
@@ -141,6 +144,7 @@ class Timer extends React.Component {
           onChange={(e)=>{this.handleInput(e)}}
           onBlur={(e)=>{this.blurTimeSet(e)}}
           onKeyDown={(e)=>{this.enterTime(e)}}
+          className="hidden"
           />
         <div tabIndex={1} onFocus={()=>{this.focusTimeSet()}}>
           <TimeDisplay 
@@ -204,8 +208,6 @@ function TimerCollection() {
   }
 
   const deleteTimer = (id) => () => {
-    console.log('deleted: ', id);
-    console.log('timer list: ', timerList);
     setTimerList((timerList)=>timerList.filter(timer=> timer.id !== id));
   }
 

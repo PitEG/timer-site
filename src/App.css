@@ -1,11 +1,20 @@
-@font-face {
-  font-family: segmented;
-  src: url(./7segments.ttf);
+@import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:regular,bold,italic&subset=latin,latin-ext');
+
+span {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 50px;
 }
 
-p {
-  font-family: segmented;
-  font-size: 36px;
+span span {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 32px;
+}
+
+.hidden {
+  position: absolute;
+  opacity: 0;
+  width: 0px;
+  height: 0px;
 }
 
 body {
