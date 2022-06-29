@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import alarm from './alarm.wav';
+import './App.css';
 
 function TimeDisplay(props) {
   // split into hrs, mins and seconds

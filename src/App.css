@@ -1,0 +1,13 @@
+@font-face {
+  font-family: segmented;
+  src: url(./7segments.ttf);
+}
+
+p {
+  font-family: segmented;
+  font-size: 36px;
+}
+
+body {
+  width: 100%;
+}
