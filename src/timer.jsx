@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import alarm from './alarm.wav';
 
 function TimeDisplay(props) {
   // split into hrs, mins and seconds
@@ -11,9 +12,9 @@ function TimeDisplay(props) {
   secs = isNaN(secs) ? 0 : secs;
   return (
     <div>
-      <p> {hrs >= 10 ? hrs : "0" + hrs} </p>
-      <p> {mins >= 10 ? mins : "0" + mins} </p>
-      <p> {secs >= 10 ? secs : "0" + secs} </p>
+      <p> {hrs  >= 10 ? hrs  : "0" + hrs}h </p>
+      <p> {mins >= 10 ? mins : "0" + mins}m </p>
+      <p> {secs >= 10 ? secs : "0" + secs}s </p>
     </div>
   );
 }
@@ -23,6 +24,13 @@ class Timer extends React.Component {
     super(props);
 
     this.numInput = React.createRef();
+
+    this.alarm = new Audio(alarm);
+    // enables looping
+    this.alarm.addEventListener('ended',function() {
+      this.currentTime = 0;
+      this.play();
+    });
 
     const startAmount = props.startAmount !== undefined ? props.startAmount : 0;
     this.state = {
@@ -40,6 +48,8 @@ class Timer extends React.Component {
     this.focusTimeSet = this.focusTimeSet.bind(this);
     this.blurTimeSet = this.blurTimeSet.bind(this);
     this.enterTime = this.enterTime.bind(this);
+
+    this.stopAlarmSound = this.stopAlarmSound.bind(this);
   }
 
   tick() {
@@ -47,8 +57,14 @@ class Timer extends React.Component {
     if (this.state.timeLeft === 1) {
       clearInterval(this.intervalId);
       this.setState(()=>({ticking: false}));
+      this.alarm.play();
     }
     this.setState((prevState)=>({timeLeft: prevState.timeLeft - 1}));
+  }
+
+  stopAlarmSound() {
+    this.alarm.pause();
+    this.alarm.currentTime = 0;
   }
 
   handleStart() {
@@ -112,7 +128,7 @@ class Timer extends React.Component {
   render() {
     const ticking = this.state.ticking;
     return (
-      <div>
+      <div onClick={this.stopAlarmSound}>
         <h2>
           <input type="text" defaultValue="TIMER NAME"/>
           </h2>
