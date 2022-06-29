@@ -1,13 +1,16 @@
 @import url('https://fonts.googleapis.com/css?family=Source+Sans+Pro:regular,bold,italic&subset=latin,latin-ext');
 
-span {
-  font-family: 'IBM Plex Mono', monospace;
-  font-size: 50px;
+body {
+  width: 100%;
 }
 
-span span {
+#root {
+  display: flex;
+}
+
+.timer span {
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 32px;
+  font-size: 50px;
 }
 
 .hidden {
@@ -17,6 +20,3 @@ span span {
   height: 0px;
 }
 
-body {
-  width: 100%;
-}

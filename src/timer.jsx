@@ -129,39 +129,45 @@ class Timer extends React.Component {
   render() {
     const ticking = this.state.ticking;
     return (
-      <div onClick={this.stopAlarmSound}>
-        <h2>
-          <input type="text" 
-            defaultValue="TIMER NAME" 
-            className="timer-name"
-            />
-          </h2>
-        <input 
-          type="tel" 
-          ref={this.numInput} 
-          tabIndex={-1}
-          // value={this.state.setAmount}
-          onChange={(e)=>{this.handleInput(e)}}
-          onBlur={(e)=>{this.blurTimeSet(e)}}
-          onKeyDown={(e)=>{this.enterTime(e)}}
-          className="hidden"
-          />
-        <div tabIndex={1} onFocus={()=>{this.focusTimeSet()}}>
-          <TimeDisplay 
-            seconds={this.state.settingTimer ? this.state.setAmount : this.state.startAmount}
-            // seconds={this.startAmount}
-          />
+      <div className="timer" onClick={this.stopAlarmSound}>
+        <div>
+          <div>
+            <h2>
+              <input type="text" 
+                defaultValue="TIMER NAME" 
+                className="timer-name"
+                />
+              </h2>
+            <input 
+              type="tel" 
+              ref={this.numInput} 
+              tabIndex={-1}
+              // value={this.state.setAmount}
+              onChange={(e)=>{this.handleInput(e)}}
+              onBlur={(e)=>{this.blurTimeSet(e)}}
+              onKeyDown={(e)=>{this.enterTime(e)}}
+              className="hidden"
+              />
+            <div tabIndex={1} onFocus={()=>{this.focusTimeSet()}}>
+              <TimeDisplay 
+                seconds={this.state.settingTimer ? this.state.setAmount : this.state.startAmount}
+                // seconds={this.startAmount}
+              />
+              </div>
+            </div>
+          <TimeDisplay seconds={this.state.timeLeft}/>
           </div>
-        <TimeDisplay seconds={this.state.timeLeft}/>
-        <button onClick={ticking ? this.handleStop: this.handleStart}> 
-          {ticking ? "stop" : "start" }
-          </button>
-        <button onClick={this.handleReset}>
-          reset
-          </button>
-        <button onClick={this.props.onDelete}>
-          {"delete"}
-          </button>
+        <div className="buttons">
+          <button onClick={this.props.onDelete}>
+            {"delete"}
+            </button>
+          <button onClick={this.handleReset}>
+            reset
+            </button>
+          <button onClick={ticking ? this.handleStop: this.handleStart}> 
+            {ticking ? "stop" : "start" }
+            </button>
+          </div>
         </div>
     );
   }
@@ -216,8 +222,8 @@ function TimerCollection() {
   )
 
   return (
-    <div> 
-      <button onClick={addTimer}> add timer. current amount: {timerList.length} </button>
+    <div className="timer-collection"> 
+      <button onClick={addTimer}> + </button>
       {timers}
     </div>
   );
