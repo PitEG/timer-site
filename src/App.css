@@ -2,15 +2,107 @@
 
 body {
   width: 100%;
+  margin: 0;
+  background-color: #121212;
+  color: white;
 }
 
 #root {
   display: flex;
+  max-width: 400px;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#root main {
+  width: 100%;
+}
+
+.timer-collection > button {
+  width: 100%;
+}
+
+.timer {
+  display: flex;
+  background-color: #343434;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+}
+
+.timer > div {
+  display: flex;
+  flex-flow: column;
+  width: 80%;
+}
+
+.timer > div > div {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: 40px;
+}
+
+.timer > div > div h2 {
+  margin: 0px;
+  margin-left: 20px;
+  margin-right: 15px;
+}
+
+.timer > div > div h2 input {
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: #343434;
+  color: white;
+  margin-top: 12px;
+  font-size: 20px;
+}
+
+.timer > div > div .time-display {
+  margin-right: 9px;
+  margin-left: 15px;
+  margin-top: 5px;
+  /* background-color: #565656; */
+  padding: 5px;
+  border-radius: 6px;
+}
+
+.timer > div > div .time-display span {
+  font-size: 24px;
+}
+
+.timer > div > .time-display {
+  display: flex;
+  align-items: center;
+  width: 90%;
+  font-size: 50px;
+  margin: auto;
+  /* background-color: #565656; */
+  padding: 8px;
+  border-radius: 6px;
+}
+
+.timer > .buttons {
+  width: 20%;
+  display: flex;
+  justify-content: center;
+  flex-flow: column;
+}
+
+.timer > .buttons button {
+  width: 95%;
+  height: 20%;
+  margin-top: 10%;
+  margin-bottom: 10%;
 }
 
 .timer span {
   font-family: 'IBM Plex Mono', monospace;
-  font-size: 50px;
+  font-size: 60px;
 }
 
 .hidden {

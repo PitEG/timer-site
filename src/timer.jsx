@@ -12,10 +12,10 @@ function TimeDisplay(props) {
   mins = isNaN(mins) ? 0 : mins;
   secs = isNaN(secs) ? 0 : secs;
   return (
-    <div>
-      <span> {hrs  >= 10 ? hrs  : "0" + hrs}<span>h</span> </span>
-      <span> {mins >= 10 ? mins : "0" + mins}m             </span>
-      <span> {secs >= 10 ? secs : "0" + secs}s             </span>
+    <div className="time-display">
+      <span>{hrs  >= 10 ? hrs  : "0" + hrs}<span>:</span></span>
+      <span>{mins >= 10 ? mins : "0" + mins}:</span>
+      <span>{secs >= 10 ? secs : "0" + secs}</span>
     </div>
   );
 }
