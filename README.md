@@ -1,3 +1,9 @@
+# timer-site
+
+I wanted to try Reactjs and also needed a webapp that would let me make multiple timers. I couldn't find a timer site like that so I thought it was a good opportunity to learn Reactjs.
+
+The website is available [here](https://piteg.github.io/timer-site/): 
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
