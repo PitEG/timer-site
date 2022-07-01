@@ -1,0 +1,14 @@
+{
+  "files": {
+    "main.css": "/timer-site/static/css/main.38df546c.css",
+    "main.js": "/timer-site/static/js/main.7f0b6eb9.js",
+    "static/media/alarm.wav": "/timer-site/static/media/alarm.e0efdbce3117d28f42e1.wav",
+    "index.html": "/timer-site/index.html",
+    "main.38df546c.css.map": "/timer-site/static/css/main.38df546c.css.map",
+    "main.7f0b6eb9.js.map": "/timer-site/static/js/main.7f0b6eb9.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.38df546c.css",
+    "static/js/main.7f0b6eb9.js"
+  ]
+}
